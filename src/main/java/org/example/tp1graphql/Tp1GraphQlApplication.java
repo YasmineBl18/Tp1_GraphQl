@@ -12,29 +12,44 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Tp1GraphQlApplication implements CommandLineRunner {
+
     @Autowired
-    EtudiantRepository etudiantRepository;
+    private EtudiantRepository etudiantRepository;
     @Autowired
-    CentreRepository centreRepository;
+    private CentreRepository centreRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(Tp1GraphQlApplication.class, args);
-
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        Centre centre1 = Centre.builder().nom("Maarif").adresse("Roudani").build();
-        centreRepository.save(centre1);
+    public void run(String... args) {
 
-        Centre centre2 = Centre.builder().nom("Oulfa").adresse("Orangers").build();
-        centreRepository.save(centre2);
+        // ----- Centres -----
+        Centre centre1 = Centre.builder()
+                .nom("Maarif")
+                .adresse("Roudani")
+                .build();
+        centre1 = centreRepository.save(centre1);
 
+        Centre centre2 = Centre.builder()
+                .nom("Oulfa")
+                .adresse("Orangers")
+                .build();
+        centre2 = centreRepository.save(centre2);
 
-        Etudiant et1= Etudiant.builder().nom("Adnani").prenom("Adnani").genre(Genre.Homme)
-                .centre(centre1).build();
+        // ----- Etudiant -----
+        Etudiant et1 = Etudiant.builder()
+                .nom("Adnani")
+                .prenom("Adnani")
+                .genre(Genre.Homme)
+                .centre(centre1)
+                .build();
+
         etudiantRepository.save(et1);
+
+        // Mise à jour de la relation inverse (optionnelle mais propre)
+        // centre1.getListEtudiants().add(et1);
+        // centreRepository.save(centre1);
     }
-
-
-
 }

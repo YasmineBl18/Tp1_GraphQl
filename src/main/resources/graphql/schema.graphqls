@@ -1,39 +1,67 @@
-type Query{
-    listEtudiants : [Etudiant]
-    getEtudiantById(id:Float):Etudiant
+""" ========== QUERIES ========== """
+type Query {
+
+    # Liste de tous les étudiants
+    listEtudiants: [Etudiant]
+
+    # Chercher un étudiant par son identifiant
+    getEtudiantById(id: Float!): Etudiant
+
+    # Liste des centres
     centres: [Centre]
-    getCentreById(id:Float):Centre
+
+    # Chercher un centre par ID
+    getCentreById(id: Float!): Centre
 }
 
-type Mutation{
-    addEtudiant(etudiantDTO: EtudiantDTO): Etudiant
-    updateEtudiant(id:Float,etudiantDTO : EtudiantDTO):Etudiant
-    deleteEtuiant(id:Float):String
+""" ========== SUBSCRIPTION ========== """
+
+
+type Subscription {
+    etudiantAdded: Etudiant
+    etudiantDeleted: Float
 }
 
+
+""" ========== MUTATIONS ========== """
+type Mutation {
+
+    # Ajouter un étudiant (DTO en entrée)
+    addEtudiant(etudiant: EtudiantDTO!): Etudiant
+
+    # Modifier un étudiant
+    updateEtudiant(id: Float!, etudiant: EtudiantDTO!): Etudiant
+
+    # Supprimer un étudiant
+    deleteEtudiant(id: Float!): String
+}
+
+""" ========== ENUMS ========== """
 enum Genre {
-    Homme,
+    Homme
     Femme
 }
 
-type Etudiant{
-    id:Float
-    nom:String
-    prenom:String
-    genre:Genre
-    centre:Centre
+""" ========== TYPES SORTIE ========== """
+type Etudiant {
+    id: Float
+    nom: String
+    prenom: String
+    genre: Genre
+    centre: Centre
 }
 
-type Centre{
-    id:Int
-    nom:String
-    adresse:String
+type Centre {
+    id: Float
+    nom: String
+    adresse: String
     listEtudiants: [Etudiant]
 }
 
+""" ========== INPUTS (DTO) ========== """
 input EtudiantDTO {
-nom:String
-prenom:String
-genre:String
-centreId:Float
+    nom: String!
+    prenom: String!
+    genre: Genre!    # ENUM, cohérent avec ta classe Etudiant
+    centreId: Float! # référence vers un centre existant
 }

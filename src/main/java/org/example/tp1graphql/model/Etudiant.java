@@ -1,11 +1,7 @@
 package org.example.tp1graphql.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
+import lombok.*;
 import org.example.tp1graphql.enums.Genre;
 
 @Entity
@@ -13,19 +9,25 @@ import org.example.tp1graphql.enums.Genre;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="etudiants")
+@Table(name = "etudiants")
 public class Etudiant {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-    @Column(name="nom_etudiant", nullable=false)
-    String nom;
-    @Column(name="prenom_etudiant")
-    String prenom;
+    private Long id;
+
+    @Column(name = "nom_etudiant", nullable = false)
+    private String nom;
+
+    @Column(name = "prenom_etudiant")
+    private String prenom;
+
     @Enumerated(EnumType.STRING)
-    Genre genre;
-    @ManyToOne
-    @NotNull
-    @JoinColumn(name="centre_id")
-    Centre centre;
+    private Genre genre;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "centre_id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Centre centre;
 }

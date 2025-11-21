@@ -1,11 +1,7 @@
 package org.example.tp1graphql.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import java.util.List;
 
 @Entity
@@ -14,11 +10,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Centre {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-    String nom;
-    String adresse;
-    @OneToMany(mappedBy = "centre")
-    List<Etudiant> listEtudiants;
+    private Long id;
+
+    private String nom;
+    private String adresse;
+
+    @OneToMany(mappedBy = "centre", fetch = FetchType.LAZY)
+    @ToString.Exclude          // IMPORTANT pour éviter les boucles
+    @EqualsAndHashCode.Exclude
+    private List<Etudiant> listEtudiants;
 }
